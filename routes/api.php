@@ -18,10 +18,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 */
-
 Route::post('login', 'API\UserController@login');
 Route::post('register', 'API\UserController@register');
-Route::post('details', 'API\UserController@details');
-Route::post('post-school', 'API\UserController@registerSchool');
-Route::post('get-school', 'API\UserController@getSchool');
+Route::get('get-school', 'API\UserController@getSchool');
+
+Route::group(['middleware' => 'auth:api'], function()
+{
+	Route::post('user-details', 'API\UserController@details');
+	Route::post('school-detail', 'API\UserController@schoolDetail');
+	Route::post('post-school', 'API\UserController@registerSchool');
+	Route::post('student-save-school', 'API\UserController@schollSaveByStudent');
+	Route::get('get-school-saved-by-student', 'API\UserController@getSchoolSavedByStudent');
+});
 
